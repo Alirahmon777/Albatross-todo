@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Side Projects",
+    "background": "#11B6A5"
+  },
+  {
+    "id": 2,
+    "title": "Networking",
+    "background": "#90B847"
+  },
+  {
+    "id": 3,
+    "title": "Writing",
+    "background": "#4E70C1"
+  }
+]
