@@ -1,7 +1,8 @@
 import { readFile, writeFile } from '../utils/fileSystem.js';
 import { join } from 'path';
+import { parseTaskBody } from '../utils/helpers.js';
 
-export const getTasks = (req, res) => {
+export const GET_TASKS = (req, res) => {
   try {
     res.status(200).json(readFile(join('src', 'db'), 'tasks.json'));
   } catch (error) {
@@ -11,7 +12,7 @@ export const getTasks = (req, res) => {
   }
 };
 
-export const getTaskById = (req, res) => {
+export const GET_TASK_BY_ID = (req, res) => {
   try {
     const id = req.params.id;
 
@@ -32,7 +33,7 @@ export const getTaskById = (req, res) => {
   }
 };
 
-export const addTasks = (req, res) => {
+export const ADD_TASKS = (req, res) => {
   try {
     const tasks = readFile(join('src', 'db'), 'tasks.json');
 
@@ -47,7 +48,7 @@ export const addTasks = (req, res) => {
     });
 
     writeFile(join('src', 'db'), 'tasks.json', tasks);
-    res.send(tasks);
+    res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({
       error: error.stack,
@@ -55,7 +56,7 @@ export const addTasks = (req, res) => {
   }
 };
 
-export const removeTask = (req, res) => {
+export const REMOVE_TASK = (req, res) => {
   try {
     const id = req.params.id;
 
@@ -73,21 +74,31 @@ export const removeTask = (req, res) => {
   }
 };
 
-export const updateTask = (req, res) => {
+export const UPDATE_TASK = (req, res) => {
   try {
     const id = req.params.id;
-    const data = req.body;
+
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'Invalid request parameters' });
+      return;
+    }
+
+    const data = parseTaskBody(req.body);
+
+    console.log(data);
+    if (data instanceof Error) {
+      res.status(404).json({ error: JSON.parse(data.message) });
+      return;
+    }
+
     const { date, categoryId, completed, body, smallBody } = data;
+
     const tasks = readFile(join('src', 'db'), 'tasks.json');
     const task = tasks?.find((task) => task.id == id);
 
     if (!task) {
       res.status(404).json({ error: 'Task not found' });
       return;
-    }
-
-    if(!parseData){
-      
     }
 
     task.date = date ?? task.date;
@@ -102,7 +113,7 @@ export const updateTask = (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({
-      error: error.stack,
+      error: error.message,
     });
   }
 };

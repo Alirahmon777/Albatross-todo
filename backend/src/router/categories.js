@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import {
-  getCategories,
-  addCategories,
-  getCategoryById,
-  removeCategory,
-  updateCategory,
+  GET_CATEGORIES,
+  ADD_CATEGORIES,
+  GET_CATEGORY_BY_ID,
+  REMOVE_CATEGORY,
+  UPDATE_CATEGORY,
 } from '../controllers/categories.js';
 export const categoryRouter = Router();
 
-categoryRouter.get('/categories', getCategories);
-categoryRouter.post('/categories', addCategories);
-categoryRouter.get('/categories/:id', getCategoryById);
-categoryRouter.delete('/categories/:id', removeCategory);
-categoryRouter.put('/categories/:id', updateCategory);
+categoryRouter.get('/categories', GET_CATEGORIES);
+categoryRouter.post('/categories', ADD_CATEGORIES);
+categoryRouter.get('/categories/:id', GET_CATEGORY_BY_ID);
+categoryRouter.delete('/categories/:id', REMOVE_CATEGORY);
+categoryRouter.put('/categories/:id', UPDATE_CATEGORY);
