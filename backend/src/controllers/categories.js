@@ -50,4 +50,39 @@ export const REMOVE_CATEGORY = (req, res) => {
     });
   }
 };
-export const UPDATE_CATEGORY = (req, res) => {};
+export const UPDATE_CATEGORY = (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (isNaN(id)) {
+      res.status(400).json({ error: 'Invalid request parameters' });
+      return;
+    }
+
+    const data = req.body;
+
+    const { title, background } = data;
+
+    const categories = readFile(join('src', 'db'), 'categories.json');
+    const category = categories?.find((category) => category.id == id);
+
+    if (!category) {
+      res.status(404).json({ error: 'Category not found' });
+      return;
+    }
+
+    console.log(title);
+    console.log(background);
+
+    category.title = title ?? category.title;
+    category.background = background ?? category.background;
+
+    writeFile(join('src', 'db'), 'categories.json', categories);
+
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};

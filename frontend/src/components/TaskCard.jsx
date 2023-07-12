@@ -49,10 +49,12 @@ export default function TaskCard({ categories, task, setOpenUpdates }) {
           {category ? (
             <div className='task-category mt-1'>
               <div
-                className='category'
+                className={`category ${
+                  category?.background.startsWith('#f') ? '!text-black' : ''
+                }`}
                 style={{ background: category?.background }}
               >
-                {category?.title}
+                {category?.title || 'Unnamed Category'}
               </div>
             </div>
           ) : null}

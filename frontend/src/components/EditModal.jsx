@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { api } from '../utils/api';
 
 export default function EditModal({ categories, setOpen, setCategories }) {
@@ -13,6 +13,17 @@ export default function EditModal({ categories, setOpen, setCategories }) {
   const removeCategory = (id) => {
     api()
       .delete(`/categories/${id}`)
+      .then((res) => {
+        setCategories(res.data);
+      });
+  };
+
+  const updateCategory = (background, title, id) => {
+    api()
+      .put(`/categories/${id}`, {
+        title: title?.trim(),
+        background,
+      })
       .then((res) => {
         setCategories(res.data);
       });
@@ -33,22 +44,30 @@ export default function EditModal({ categories, setOpen, setCategories }) {
           </button>
         </div>
         <ul className='category-editor-list flex-col'>
-          {categories?.map((category) => (
-            <li className='category-editor-item flex-row'>
+          {categories?.map((category, i) => (
+            <li className='category-editor-item flex-row' key={i}>
               <input
                 type='color'
-                value={category.background}
+                defaultValue={category.background}
                 className='category-editor-color-input'
+                onChange={(e) =>
+                  updateCategory(e.target.value, null, category.id)
+                }
               />
               <input
-                placeholder='New category'
-                value={category.title}
-                className='category-editor-name-input'
+                placeholder={category.title || 'New Category'}
+                defaultValue={category.title || 'Unnamed Category'}
+                className='category-editor-name-input placeholder-gray-400'
+                onChange={(e) =>
+                  updateCategory(null, e.target.value, category.id)
+                }
               />
               <button
                 title='Delete category'
                 className='category-editor-delete'
-                onClick={() => removeCategory(category.id)}
+                onClick={() => {
+                  removeCategory(category.id);
+                }}
               >
                 X
               </button>

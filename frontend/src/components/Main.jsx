@@ -248,7 +248,7 @@ export default function Main() {
                       <optgroup label='Categories' className=''>
                         {categories.map((category, i) => (
                           <option key={i} value={category.id} className=''>
-                            {category.title}
+                            {category.title || 'Unnamed Category'}
                           </option>
                         ))}
                       </optgroup>

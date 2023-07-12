@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "title": "Side Projects",
-    "background": "#11B6A5"
+    "title": "Side Project",
+    "background": "#44c814"
   },
   {
     "id": 2,
@@ -10,8 +10,8 @@
     "background": "#90B847"
   },
   {
-    "id": 3,
+    "id": 27,
     "title": "Writing",
-    "background": "#4E70C1"
+    "background": "#7125B4"
   }
 ]
