@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { SnackbarProvider } from 'notistack';
+import { updateCompleted } from '../utils/helpers';
+import { TasksContext } from '../context/TasksContext';
 
-export default function TaskCard({
-  categories,
-  date,
-  task,
-  updateTask,
-  active,
-  setActive,
-  setOpenUpdates,
-}) {
+export default function TaskCard({ categories, task, setOpenUpdates }) {
+  const { setTasks, setActive, active } = useContext(TasksContext);
   const category = categories.find((c) => c.id == task.categoryId);
+
   return (
     <li
       className={`task-li w-full hover:bg-[#fdfeff] ${
@@ -20,15 +17,18 @@ export default function TaskCard({
         setActive(task.id);
       }}
     >
-      <div className={`task task-${task.completed ? 'done' : 'undone'}`}>
-        <label className='task-status'>
+      <SnackbarProvider />
+      <div
+        className={`task task-${
+          task.completed ? 'done' : 'undone'
+        } !cursor-default`}
+      >
+        <label className='task-status cursor-pointer'>
           <input
             type='checkbox'
             checked={task.completed}
             className='task-checkbox pointer-events-none'
-            onChange={() => {
-              updateTask(null, null, !task.completed);
-            }}
+            onChange={() => updateCompleted(!task.completed, active, setTasks)}
           />
         </label>
         <div tabIndex='0' className='task-content'>

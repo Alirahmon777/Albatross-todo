@@ -217,7 +217,6 @@ input[type='checkbox']:checked::after {
 .task-editor {
   height: 0;
   flex-grow: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -282,7 +281,6 @@ input[type='checkbox']:checked::after {
   gap: 8px;
   width: 100%;
   margin: 16px 0;
-  padding-right: 10px;
 }
 
 .task-editor-option-subrow {
@@ -316,6 +314,8 @@ dialog.category-editor {
 
 dialog h2 {
   margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .task-editor-body {
@@ -379,4 +379,92 @@ dialog h2 {
 
 .task-due {
   color: #bd4444;
+}
+
+dialog {
+  color: #111;
+  background: #fdfeff;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 52px -6px rgba(0, 0, 0, 0.36);
+}
+
+dialog[open] {
+  display: block;
+}
+
+dialog.category-editor {
+  padding: 1em;
+  width: calc(100% - 36px);
+  max-width: 360px;
+}
+
+dialog::backdrop {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.category-editor-header {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+dialog h2 {
+  margin: 0;
+}
+
+ul.category-editor-list {
+  padding-left: 0;
+  margin: 0;
+  width: 100%;
+}
+
+li.category-editor-item {
+  list-style: none;
+  width: 100%;
+}
+
+.category-editor-name-input {
+  flex-grow: 1;
+}
+
+.category-editor-color-input {
+  height: 2.25em;
+}
+
+.category-editor-add {
+  width: 100%;
+}
+
+.task-list-new-task,
+.category-editor-add {
+  color: #fdfeff;
+  background: #bd4444;
+}
+
+.task-list-new-task:hover,
+.category-editor-add:hover {
+  background: #ac3232;
+}
+
+.task-list-new-task:active,
+.category-editor-add:active {
+  background: #891111;
+}
+
+button:hover,
+select:hover,
+input[type='date']:active,
+input[type='color']:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+button:active,
+select:active,
+input[type='date']:focus,
+input[type='date']:active,
+input[type='color']:focus,
+input[type='color']:active {
+  background: #eeeef3;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
