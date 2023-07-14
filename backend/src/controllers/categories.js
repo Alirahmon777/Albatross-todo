@@ -1,16 +1,31 @@
 import { readFile, writeFile } from '../utils/fileSystem.js';
 import { join } from 'path';
+
 export const GET_CATEGORIES = (req, res) => {
   try {
     res.status(200).json(readFile(join('src', 'db'), 'categories.json'));
   } catch (error) {
     res.status(500).json({
-      error: error.stack,
+      error: error.message,
     });
   }
 };
 
-export const GET_CATEGORY_BY_ID = (req, res) => {};
+export const GET_CATEGORY_BY_ID = (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const categories = readFile(join('src', 'db'), 'categories.json');
+
+    const task = categories.find((task) => task.id == id);
+
+    res.status(200).json(task);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
 
 export const ADD_CATEGORIES = (req, res) => {
   try {
@@ -29,10 +44,11 @@ export const ADD_CATEGORIES = (req, res) => {
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({
-      error: error.stack,
+      error: error.message,
     });
   }
 };
+
 export const REMOVE_CATEGORY = (req, res) => {
   try {
     const id = req.params.id;
@@ -46,18 +62,14 @@ export const REMOVE_CATEGORY = (req, res) => {
     res.status(200).json(filteredCategories);
   } catch (error) {
     res.status(500).json({
-      error: error.stack,
+      error: error.message,
     });
   }
 };
+
 export const UPDATE_CATEGORY = (req, res) => {
   try {
     const id = req.params.id;
-
-    if (isNaN(id)) {
-      res.status(400).json({ error: 'Invalid request parameters' });
-      return;
-    }
 
     const data = req.body;
 
@@ -65,14 +77,6 @@ export const UPDATE_CATEGORY = (req, res) => {
 
     const categories = readFile(join('src', 'db'), 'categories.json');
     const category = categories?.find((category) => category.id == id);
-
-    if (!category) {
-      res.status(404).json({ error: 'Category not found' });
-      return;
-    }
-
-    console.log(title);
-    console.log(background);
 
     category.title = title ?? category.title;
     category.background = background ?? category.background;

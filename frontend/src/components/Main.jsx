@@ -29,7 +29,7 @@ export default function Main() {
       .then((res) => {
         setTasks(res.data);
         setOpenUpdates(true);
-        setActive(() => res.data.length + 1);
+        setActive(() => res.data.length + 2);
       });
   };
 
@@ -47,6 +47,10 @@ export default function Main() {
           })
       : null;
   };
+
+  // if(){
+
+  // }
 
   const searchingTask = () => {
     return tasks.filter((task) =>
